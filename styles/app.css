@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    background: black;
+    overflow: hidden;
+}
+
+canvas {
+    background: black;
+    overflow: hidden;
+}
+
+#styleDiv {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#factsDiv {
+    position: absolute;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#text {
+    color: white;
+    font-size: 26px;
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
