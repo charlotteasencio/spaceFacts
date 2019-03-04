@@ -12,25 +12,12 @@ factsDiv.style.width = canvas.width / 3 + 'px'
 let rectangle = factsDiv.getBoundingClientRect()
 console.log(rectangle)
 
-const mouse = {
-    x: innerWidth / 2,
-    y: innerHeight / 2
-}
-
-//const colors = ['#FB4D3D', '#CA1551', '#03CEA4', '#345995', '#EAC435']
-
-const colors = ["white"]
 
 const facts = ["There is a volcano on mars that is three times the size of Mount Everest.", 
                 "Venus is the hottest planet even though Mercury is closer to the sun.", 
                 "Water floats like bubbles in the International Space Station and will cling to a surface until dislodged.", 
                 "Voyager 1, the furthest man made object from earth, entered interstellar space in 2012."]
 
-// Event Listeners
-addEventListener('mousemove', event => {
-    mouse.x = event.clientX
-    mouse.y = event.clientY
-})
 
 addEventListener('resize', () => {
     canvas.width = innerWidth
@@ -52,28 +39,13 @@ factsContainer.innerHTML = facts[1]
             count = 0;
           };
         }
-      }, 3700);
+      }, 4000);
 
 //helper functions
 function findDistance(x1, y1, x2, y2) {
 let distance1 = x2-x1
 let distance2 = y2-y1
     return Math.sqrt((Math.pow(distance1, 2)) + (Math.pow(distance2, 2)))
-}
-
-function randomIntFromRange(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function randomColor(colors) {
-    return colors[Math.floor(Math.random() * colors.length)]
-}
-
-function distance(x1, y1, x2, y2) {
-    const xDist = x2 - x1
-    const yDist = y2 - y1
-
-    return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
 }
 
 //rotate on the angle between the two center points of particles so you can use the two deminsions
@@ -86,13 +58,7 @@ function rotate(velocity, angle) {
     return rotatedVelocities;
 }
 
-
 function collision(particle, otherParticle) {
-
-    /*have to use one dimensional newtonian equation (elastic collisions) - this equation is for one dimesion but since we have two, we will use the above 
-        rotate function to get both of the dimensions*/
-
-        //we have to rotate by the angle of the created by the centers of circles
 
     const xVelocityDiff = particle.velocity.x - otherParticle.velocity.x;
     const yVelocityDiff = particle.velocity.y - otherParticle.velocity.y;
@@ -104,21 +70,13 @@ function collision(particle, otherParticle) {
         //Diff in velocity and distance of the two particles that are being passed through will only react when this is = 0
     if (xVelocityDiff * xDist + yVelocityDiff * yDist >= 0) {
 
-        // Grab angle between the two colliding particles
-            //the angle from the x and y of both particles
         const angle = -Math.atan2(otherParticle.y - particle.y, otherParticle.x - particle.x);
 
-        // Store mass in var for better readability in collision equation
         const m1 = particle.mass;
         const m2 = otherParticle.mass;
 
-        // Velocity before equation
-            //this is where we rotate the particles
         const u1 = rotate(particle.velocity, angle);
         const u2 = rotate(otherParticle.velocity, angle);
-
-        // Velocity after 1d collision equation
-            //after it has been rotated
 
         //ONE-DIMENSIONAL NEWTONIAN EQUATION: 
           //velocity after collision = (mass1 - mass 2) / (mass1 + mass2) * velocity1 before collision + (2 * mass2) / (mass1 + mass2) * velocity2 before collision
@@ -213,17 +171,17 @@ function init() {
     function makeStars(starsAmount) {
             for (let i = 0; i < starsAmount; i++) {
             const radius = 5;
-            let x = randomIntFromRange(radius, canvas.width-radius);
-            let y = randomIntFromRange(radius, canvas.height-radius);
-            let color = randomColor(colors)
+            let x = Math.floor(Math.random() * (canvas.width - radius - radius + 1) + radius)
+            let y = Math.floor(Math.random() * (canvas.height - radius - radius + 1) + radius)
+            let color = "white"
 
             //make sure there is more than one particle on the screen
             if (i !== 0) {
             //then check if any of the particles are overlapping, if they are skip that one and generate another
             for(let j=0; j < circles.length; j++) {
                 if(findDistance(x, y, circles[j].x, circles[j].y) - radius * 2 < 0){
-                    x = randomIntFromRange(radius, canvas.width - radius)
-                    y = randomIntFromRange(radius, canvas.height - radius)
+                    x = Math.floor(Math.random() * (canvas.width - radius - radius + 1) + radius)
+                    y = Math.floor(Math.random() * (canvas.height - radius - radius + 1) + radius)
                     
                     j = -1
                 }
@@ -232,13 +190,12 @@ function init() {
             for(let k=0; k < circles.length; k++) {
                 if(circles[k].x + circles[k].radius * 2 >= rectangle.left && circles[k].x - circles[k].radius * 2 <= rectangle.right 
                     && circles[k].y - circles[k].radius * 2 <= rectangle.bottom && circles[k].y + circles[k].radius * 2 >= rectangle.top){
-                    circles[k].x = randomIntFromRange(radius, canvas.width - radius)
-                    circles[k].y = randomIntFromRange(radius, canvas.height - radius)
+                    circles[k].x = Math.floor(Math.random() * (canvas.width - radius - radius + 1) + radius)
+                    circles[k].y = Math.floor(Math.random() * (canvas.height - radius - radius + 1) + radius)
                     
                     k = -1
                 }
             }
-            //use distance formula and start the look over by minusing one so that is always starts at beginning 
             }
             circles.push(new Circle(x, y, radius, color))
         }
