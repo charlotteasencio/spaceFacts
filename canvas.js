@@ -16,7 +16,8 @@ console.log(rectangle)
 const facts = ["There is a volcano on mars that is three times the size of Mount Everest.", 
                 "Venus is the hottest planet even though Mercury is closer to the sun.", 
                 "Water floats like bubbles in the International Space Station and will cling to a surface until dislodged.", 
-                "Voyager 1, the furthest man made object from earth, entered interstellar space in 2012."]
+                "Voyager 1, the furthest man made object from earth, entered interstellar space in 2012.",
+                "The journey between Earth and Mars takes between 150 and 300 days."]
 
 
 addEventListener('resize', () => {
@@ -202,7 +203,7 @@ function init() {
     }
 
     if (canvas.height < 500 || canvas.width < 700) {
-        makeStars(65)
+        makeStars(45)
     } else if (canvas.height < 800 || canvas.width < 900) {
         makeStars(100)
     } else if (canvas.height > 1100 || canvas.width > 1200) {
